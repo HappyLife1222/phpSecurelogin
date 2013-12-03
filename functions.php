@@ -17,9 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+include 'psl-config.php';
+
 function sec_session_start() {
     $session_name = 'sec_session_id';   // Set a custom session name 
-    $secure = false;                    // Set to true if using https.
+    $secure = SECURE;
     
     // This stops JavaScript being able to access the session id.
     $httponly = true;

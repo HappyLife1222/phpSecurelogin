@@ -53,6 +53,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <body>
         <!-- Registration form to be output if the POST variables are not
         set or if the registration script caused an error. -->
+        <h1>Nothing to see here yet...</h1>
+        <p>Return to the <a href="login.php">login page</a>.</p>
         <?php
         // put your code here
         ?>

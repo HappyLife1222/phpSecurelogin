@@ -17,9 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-define("HOST", "localhost"); 			// The host you want to connect to. 
-define("USER", "sec_user"); 			// The database username. 
-define("PASSWORD", "4Fa98xkHVd2XmnfK"); 	// The database password. 
-define("DATABASE", "secure_login");             // The database name.
+include 'psl-config.php';   // Needed because functions.php is not included
 
 $mysqli = new mysqli(HOST, USER, PASSWORD, DATABASE);

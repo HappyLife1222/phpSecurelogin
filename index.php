@@ -1,3 +1,15 @@
+<?php
+include 'db_connect.php';
+include 'functions.php';
+
+sec_session_start();
+
+if (login_check($mysqli) == true) {
+    $logged = 'in';
+} else {
+    $logged = 'out';
+}
+?>
 <!DOCTYPE html>
 <!--
 Copyright (C) 2013 peter
@@ -17,16 +29,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <html>
     <head>
-        <meta charset="UTF-8">
-        <title>Secure Login - Index</title>
+        <title>Secure Login - Log In</title>
+        <script type="text/JavaScript" src="sha512.js"></script> 
+        <script type="text/JavaScript" src="forms.js"></script> 
     </head>
     <body>
         <?php
-        // put your code here
-        ?>
-        <a href="test_page.php">Go to the test page</a><br>
-        <a href="login.php">Go to the login page</a><br>
-        <a href="logout.php">Log out</a><br>
-        <a href="protected_page.php">Protected page</a>
+        if (isset($_GET['error'])) {
+            echo '<p>Error Logging In!</p>';
+        }
+        ?> 
+        <form action="process_login.php" method="post" name="login_form"> 			
+            Email: <input type="text" name="email" />
+            Password: <input type="password" 
+                             name="password" 
+                             id="password"/>
+            <input type="button" 
+                   value="Login" 
+                   onclick="formhash(this.form, this.form.password);" /> 
+        </form>
+        <p>If you don't have a login, please <a href="register.php">register</a></p>
+        <p>If you are done, please <a href="logout.php">log out</a>.</p>
+        <p>You are currently logged <?php echo $logged ?>.</p>
     </body>
 </html>
