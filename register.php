@@ -16,13 +16,17 @@ if (isset($_POST['username'], $_POST['email'], $_POST['p'])) {
     // 
     // Username should contain only upper and lowercase letters, digits, underscores and hyphens
     // Email should validate as an email
+    // It should not be possible to enter a username or email that already exists in the db
+    //
+    // It should also be possible to ensure that the password length is acceptable
+    // There's no obvious way of doing this except, perhaps, by passing the password
+    // length in the post data.
 
 // The hashed password from the form 
     $password = $_POST['p'];
 
 // Create a random salt
-//    $random_bytes = openssl_random_pseudo_bytes (128, true);
-    $random_salt = hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), true));
+    $random_salt = hash('sha512', uniqid(openssl_random_pseudo_bytes (16), TRUE));
 
 // Create salted password (Careful not to over season) 
     $password = hash('sha512', $password . $random_salt);
