@@ -20,7 +20,8 @@ if (isset($_POST['username'], $_POST['email'], $_POST['p'])) {
 // The hashed password from the form 
     $password = $_POST['p'];
 
-// Create a random salt using $_SERVEphp form action to post to selfR
+// Create a random salt
+//    $random_bytes = openssl_random_pseudo_bytes (128, true);
     $random_salt = hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), true));
 
 // Create salted password (Careful not to over season) 
