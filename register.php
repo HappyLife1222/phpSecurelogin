@@ -6,39 +6,51 @@
 // server side then make sure you hash it
 include 'db_connect.php';
 
+$error_msg = "";
+
 if (isset($_POST['username'], $_POST['email'], $_POST['p'])) {
-// The data passed in from the registration form (needs to be filtered)
-    $username = $_POST['username'];
-    $email = $_POST['email'];
+    // Sanitize and validate the data passed in
+    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+    $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        // Not a valid email
+        $error_msg = "The email address you entered is not valid";
+    }
+    
+    $password = filter_input(INPUT_POST, 'p', FILTER_SANITIZE_STRING);
+    if (strlen($password) != 128) {
+        // The hashed pwd should be 128 characters long.
+        // If it's not, something really odd has happened
+        $error_msg .= '<p>Invalid password configuration: ' . strlen($password) . '</p>';
+    }
 
     // TODO: We need to do server side checking here in case the POST data has
     // been tampered with.
     // 
-    // Username should contain only upper and lowercase letters, digits, underscores and hyphens
-    // Email should validate as an email
+    // Should username should contain only upper and lowercase letters, digits, underscores and hyphens??
     // It should not be possible to enter a username or email that already exists in the db
     //
     // It should also be possible to ensure that the password length is acceptable
     // There's no obvious way of doing this except, perhaps, by passing the password
     // length in the post data.
 
-// The hashed password from the form 
-    $password = $_POST['p'];
+    if (empty($error_msg)) {
+        // Create a random salt
+        $random_salt = hash('sha512', uniqid(openssl_random_pseudo_bytes(16), TRUE));
 
-// Create a random salt
-    $random_salt = hash('sha512', uniqid(openssl_random_pseudo_bytes (16), TRUE));
+        // Create salted password 
+        $password = hash('sha512', $password . $random_salt);
 
-// Create salted password (Careful not to over season) 
-    $password = hash('sha512', $password . $random_salt);
-
-// Add your insert to database script here. 
-// Make sure you use prepared statements! 
-    if ($insert_stmt = $mysqli->prepare("INSERT INTO members (username, email, password, salt) VALUES (?, ?, ?, ?)")) {
-        $insert_stmt->bind_param('ssss', $username, $email, $password, $random_salt);
-        // Execute the prepared query.
-        $insert_stmt->execute();
+        // Add your insert to database script here. 
+        // Make sure you use prepared statements! 
+        if ($insert_stmt = $mysqli->prepare("INSERT INTO members (username, email, password, salt) VALUES (?, ?, ?, ?)")) {
+            $insert_stmt->bind_param('ssss', $username, $email, $password, $random_salt);
+            // Execute the prepared query.
+            $insert_stmt->execute();
+        }
+        header('Location: ./register_success.php');
     }
-    header('Location: ./register_success.php');
 }
 ?>
 <!DOCTYPE html>
@@ -69,6 +81,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <!-- Registration form to be output if the POST variables are not
         set or if the registration script caused an error. -->
         <h1>Under development...</h1>
+        <?php
+        if (!empty($error_msg)) {
+            echo '<p>' . $error_msg . '</p>';
+        }
+        ?>
         <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post" name="registration_form">
             Username: <input type='text' name='username' id='username' /><br>
             Email: <input type="text" name="email" id="email" /><br>
@@ -80,11 +97,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                      id="confirmpwd" /><br>
             <input type="button" 
                    value="Register" 
-                   onclick="return regformhash(this.form, 
-                                                this.form.username, 
-                                                this.form.email, 
-                                                this.form.password, 
-                                                this.form.confirmpwd);" /> 
+                   onclick="return regformhash(this.form,
+                                   this.form.username,
+                                   this.form.email,
+                                   this.form.password,
+                                   this.form.confirmpwd);" /> 
         </form>
         <p>Return to the <a href="index.php">login page</a>.</p>
     </body>
