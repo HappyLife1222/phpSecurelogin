@@ -1,9 +1,20 @@
 <?php
-// To create the password hash you will need to use the following code. 
-// Make sure the value of $_POST['p'] is already hashed from JavaScript.
-//   
-// If you are not using this method because you want to validate the password 
-// server side then make sure you hash it
+/**
+Copyright (C) 2013 peter
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 include 'db_connect.php';
 
 $error_msg = "";
@@ -25,15 +36,16 @@ if (isset($_POST['username'], $_POST['email'], $_POST['p'])) {
         $error_msg .= '<p>Invalid password configuration: ' . strlen($password) . '</p>';
     }
 
-    // TODO: We need to do server side checking here in case the POST data has
-    // been tampered with.
-    // 
-    // Should username should contain only upper and lowercase letters, digits, underscores and hyphens??
-    // It should not be possible to enter a username or email that already exists in the db
+    // Username validity and password validity have been checked client side.
+    // This should should be adequate as nobody gains any advantage from
+    // breaking these rules.
     //
-    // It should also be possible to ensure that the password length is acceptable
-    // There's no obvious way of doing this except, perhaps, by passing the password
-    // length in the post data.
+    // TODO:  
+    // 1) It should not be possible to enter a username or email that already exists in the db
+    //
+    // 2) We'll also have to account for the situation where the user doesn't have
+    // rights to do registration, by checking what type of user is attempting to
+    // perform the operation.
 
     if (empty($error_msg)) {
         // Create a random salt
@@ -42,8 +54,7 @@ if (isset($_POST['username'], $_POST['email'], $_POST['p'])) {
         // Create salted password 
         $password = hash('sha512', $password . $random_salt);
 
-        // Add your insert to database script here. 
-        // Make sure you use prepared statements! 
+        // Insert the new user into the database 
         if ($insert_stmt = $mysqli->prepare("INSERT INTO members (username, email, password, salt) VALUES (?, ?, ?, ?)")) {
             $insert_stmt->bind_param('ssss', $username, $email, $password, $random_salt);
             // Execute the prepared query.
@@ -54,22 +65,6 @@ if (isset($_POST['username'], $_POST['email'], $_POST['p'])) {
 }
 ?>
 <!DOCTYPE html>
-<!--
-Copyright (C) 2013 peter
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
 <html>
     <head>
         <meta charset="UTF-8">
@@ -80,12 +75,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <body>
         <!-- Registration form to be output if the POST variables are not
         set or if the registration script caused an error. -->
-        <h1>Under development...</h1>
+        <h1>Register with us</h1>
         <?php
         if (!empty($error_msg)) {
             echo '<p>' . $error_msg . '</p>';
         }
         ?>
+        <ul>
+            <li>Usernames may contain only digits, upper and lower case letters and underscores</li>
+            <li>Emails must have a valid email format</li>
+            <li>Passwords must be at least 6 characters long</li>
+            <li>Passwords must contain
+                <ul>
+                    <li>At least one upper case letter (A..Z)</li>
+                    <li>At least one lower case letter (a..z)</li>
+                    <li>At least one number (0..9)</li>
+                </ul>
+            </li>
+            <li>Your password and confirmation must match exactly</li>
+        </ul>
         <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post" name="registration_form">
             Username: <input type='text' name='username' id='username' /><br>
             Email: <input type="text" name="email" id="email" /><br>
