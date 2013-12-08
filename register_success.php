@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Registration Success</title>
+        <title>Secure Login: Registration Success</title>
     </head>
     <body>
         <h1>Registration successful!</h1>

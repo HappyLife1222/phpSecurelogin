@@ -86,7 +86,7 @@ if (isset($_POST['username'], $_POST['email'], $_POST['p'])) {
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Registration Form</title>
+        <title>Secure Login: Registration Form</title>
         <script type="text/JavaScript" src="sha512.js"></script> 
         <script type="text/JavaScript" src="forms.js"></script>
         <style>

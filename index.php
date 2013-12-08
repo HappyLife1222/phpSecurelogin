@@ -29,7 +29,7 @@ if (login_check($mysqli) == true) {
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Secure Login - Log In</title>
+        <title>Secure Login: Log In</title>
         <script type="text/JavaScript" src="sha512.js"></script> 
         <script type="text/JavaScript" src="forms.js"></script> 
     </head>

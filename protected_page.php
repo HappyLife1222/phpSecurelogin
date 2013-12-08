@@ -24,7 +24,7 @@ sec_session_start();
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>Secure Login: Protected Page</title>
     </head>
     <body>
         <?php if (login_check($mysqli) == true) : ?>
