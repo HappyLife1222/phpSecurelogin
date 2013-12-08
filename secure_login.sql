@@ -6,7 +6,7 @@
 -- Generation Time: Dec 03, 2013 at 03:03 PM
 -- Server version: 5.5.34
 -- PHP Version: 5.3.10-1ubuntu3.8
-https://github.com/peredurabefrog/phpSecureLogin
+-- https://github.com/peredurabefrog/phpSecureLogin
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
