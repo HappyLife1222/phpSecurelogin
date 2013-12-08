@@ -1,6 +1,13 @@
+<?php
+$error = filter_input('INPUT_GET', 'err');
+
+if (! $error) {
+    $error = 'Oops! An unknown error happened.';
+}
+?>
 <!DOCTYPE html>
 <!--
-Copyright (C) 2013 peredur.net
+Copyright (C) 2013 peter
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,10 +25,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Registration Success</title>
+        <title>Secure Login: Error</title>
     </head>
     <body>
-        <h1>Registration successful!</h1>
-        <p>You can now go back to the <a href="index.php">login page</a> and log in</p>
+        <h1>There was a problem</h1>
+        <p><?php echo $error; ?></p>  
     </body>
 </html>

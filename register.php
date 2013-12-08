@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 include 'db_connect.php';
+include 'psl.config';
 
 $error_msg = "";
 
@@ -53,6 +54,8 @@ if (isset($_POST['username'], $_POST['email'], $_POST['p'])) {
             // A user with this email address already exists
             $error_msg .= '<p class="error">A user with this email address already exists.</p>';
         }
+    } else {
+        $error_msg .= '<p class="error">Database error</p>';
     }
     
     // TODO: 
@@ -71,7 +74,9 @@ if (isset($_POST['username'], $_POST['email'], $_POST['p'])) {
         if ($insert_stmt = $mysqli->prepare("INSERT INTO members (username, email, password, salt) VALUES (?, ?, ?, ?)")) {
             $insert_stmt->bind_param('ssss', $username, $email, $password, $random_salt);
             // Execute the prepared query.
-            $insert_stmt->execute();
+            if (! $insert_stmt->execute()) {
+                header('Location: ./error.php?err=Registration failure: INSERT');
+            }
         }
         header('Location: ./register_success.php');
     }
