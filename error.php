@@ -1,5 +1,5 @@
 <?php
-$error = filter_input('INPUT_GET', 'err');
+$error = filter_input(INPUT_GET, 'err');
 
 if (! $error) {
     $error = 'Oops! An unknown error happened.';
