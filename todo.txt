@@ -23,6 +23,9 @@ When roles are working, we should be able to add config items to specify who can
 Installation routine.  It would be really cool if there was an install routine similar to the WordPress' one.
 (Shouldn't be too hard.  Probably looks harder thann it is)
 
+Add a "Remember Me" check box.  Not sure about how this works.
+(Looks quite hard, until I find out more about the functionality)
+
 Quality improvements
 --------------------
 
