@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * Copyright (C) 2013 peredur.net
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,10 +17,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-include 'psl-config.php';   // Needed because functions.php is not included
+include 'db_connect.php';
+include 'functions.php';
 
-$mysqli = new mysqli(HOST, USER, PASSWORD, DATABASE);
-if ($mysqli->connect_error) {
-    header('Location: ./error.php?err=Unable to connect to MySQL');
+sec_session_start(); // Our custom secure way of starting a PHP session.
+
+if (isset($_POST['email'], $_POST['p'])) {
+    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+    $password = $_POST['p']; // The hashed password.
+    
+    if (login($email, $password, $mysqli) == true) {
+        // Login success 
+        header('Location: ../protected_page.php');
+    } else {
+        // Login failed 
+        header('Location: ../index.php?error=1');
+    }
+} else {
+    // The correct POST variables were not sent to this page. 
+    header('Location: ../error.php?err=Could not process login');
     exit();
 }

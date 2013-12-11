@@ -15,8 +15,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-include 'db_connect.php';
-include 'functions.php';
+include 'includes/db_connect.php';
+include 'includes/functions.php';
 
 sec_session_start();
 
@@ -30,16 +30,17 @@ if (login_check($mysqli) == true) {
 <html>
     <head>
         <title>Secure Login: Log In</title>
-        <script type="text/JavaScript" src="sha512.js"></script> 
-        <script type="text/JavaScript" src="forms.js"></script> 
+        <link rel="stylesheet" href="styles/main.css" />
+        <script type="text/JavaScript" src="js/sha512.js"></script> 
+        <script type="text/JavaScript" src="js/forms.js"></script> 
     </head>
     <body>
         <?php
         if (isset($_GET['error'])) {
-            echo '<p>Error Logging In!</p>';
+            echo '<p class="error">Error Logging In!</p>';
         }
         ?> 
-        <form action="process_login.php" method="post" name="login_form"> 			
+        <form action="includes/process_login.php" method="post" name="login_form"> 			
             Email: <input type="text" name="email" />
             Password: <input type="password" 
                              name="password" 
@@ -49,7 +50,7 @@ if (login_check($mysqli) == true) {
                    onclick="formhash(this.form, this.form.password);" /> 
         </form>
         <p>If you don't have a login, please <a href="register.php">register</a></p>
-        <p>If you are done, please <a href="logout.php">log out</a>.</p>
+        <p>If you are done, please <a href="includes/logout.php">log out</a>.</p>
         <p>You are currently logged <?php echo $logged ?>.</p>
     </body>
 </html>

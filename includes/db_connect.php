@@ -1,6 +1,6 @@
 <?php
 
-/*
+/* 
  * Copyright (C) 2013 peredur.net
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,18 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-include 'functions.php';
-sec_session_start();
+include 'psl-config.php';   // Needed because functions.php is not included
 
-// Unset all session values 
-$_SESSION = array();
-
-// get session parameters 
-$params = session_get_cookie_params();
-
-// Delete the actual cookie. 
-setcookie(session_name(),'', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
-
-// Destroy session 
-session_destroy();
-header('Location: index.php');
+$mysqli = new mysqli(HOST, USER, PASSWORD, DATABASE);
+if ($mysqli->connect_error) {
+    header('Location: ../error.php?err=Unable to connect to MySQL');
+    exit();
+}

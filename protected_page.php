@@ -15,8 +15,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-include 'db_connect.php';
-include 'functions.php';
+include 'includes/db_connect.php';
+include 'includes/functions.php';
 
 sec_session_start();
 ?>
@@ -25,6 +25,7 @@ sec_session_start();
     <head>
         <meta charset="UTF-8">
         <title>Secure Login: Protected Page</title>
+        <link rel="stylesheet" href="styles/main.css" />
     </head>
     <body>
         <?php if (login_check($mysqli) == true) : ?>
@@ -37,7 +38,9 @@ sec_session_start();
             </p>
             <p>Return to <a href="index.php">login page</a></p>
         <?php else : ?>
-            <p>You are not authorized to access this page, please <a href="index.php">login</a>.</p>
+            <p>
+                <span class="error">You are not authorized to access this page.</span> Please <a href="index.php">login</a>.
+            </p>
         <?php endif; ?>
     </body>
 </html>

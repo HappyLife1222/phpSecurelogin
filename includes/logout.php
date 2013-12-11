@@ -17,24 +17,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-include 'db_connect.php';
 include 'functions.php';
+sec_session_start();
 
-sec_session_start(); // Our custom secure way of starting a PHP session.
+// Unset all session values 
+$_SESSION = array();
 
-if (isset($_POST['email'], $_POST['p'])) {
-    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    $password = $_POST['p']; // The hashed password.
-    
-    if (login($email, $password, $mysqli) == true) {
-        // Login success 
-        header('Location: ./protected_page.php');
-    } else {
-        // Login failed 
-        header('Location: ./index.php?error=1');
-    }
-} else {
-    // The correct POST variables were not sent to this page. 
-    header('Location: ./error.php?err=Could not process login');
-    exit();
-}
+// get session parameters 
+$params = session_get_cookie_params();
+
+// Delete the actual cookie. 
+setcookie(session_name(),'', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
+
+// Destroy session 
+session_destroy();
+header('Location: ../index.php');
