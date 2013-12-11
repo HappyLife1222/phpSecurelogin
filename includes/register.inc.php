@@ -78,8 +78,10 @@ if (isset($_POST['username'], $_POST['email'], $_POST['p'])) {
             // Execute the prepared query.
             if (! $insert_stmt->execute()) {
                 header('Location: ../error.php?err=Registration failure: INSERT');
+                exit();
             }
         }
         header('Location: ./register_success.php');
+        exit();
     }
 }

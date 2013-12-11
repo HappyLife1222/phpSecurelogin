@@ -28,7 +28,8 @@ function sec_session_start() {
 
     // Forces sessions to only use cookies.
     if (!ini_set('session.use_only_cookies', 1)) {
-        header('Location: ../error.php?err=Could not initiate a safe session (ini_set)');
+        header("Location: ../error.php?err=Could not initiate a safe session (ini_set)");
+        exit();
     }
 
     // Gets current cookies params.
@@ -90,7 +91,7 @@ function login($email, $password, $mysqli) {
                     $now = time();
                     if (! $mysqli->query("INSERT INTO login_attempts(user_id, time) 
                                     VALUES ('$user_id', '$now')")) {
-                        header('Location: ../error.php?err=Database error: login_attempts');
+                        header("Location: ../error.php?err=Database error: login_attempts");
                         exit();
                     }
 
@@ -103,7 +104,7 @@ function login($email, $password, $mysqli) {
         }
     } else {
         // Could not create a prepared statement
-        header('Location: ../error.php?err=Database error: cannot prepare statement');
+        header("Location: ../error.php?err=Database error: cannot prepare statement");
         exit();
     }
 }
@@ -132,7 +133,7 @@ function checkbrute($user_id, $mysqli) {
         }
     } else {
         // Could not create a prepared statement
-        header('Location: ../error.php?err=Database error: cannot prepare statement');
+        header("Location: ../error.php?err=Database error: cannot prepare statement");
         exit();
     }
 }
@@ -174,7 +175,7 @@ function login_check($mysqli) {
             }
         } else {
             // Could not prepare statement
-            header('Location: ../error.php?err=Database error: cannot prepare statement');
+            header("Location: ../error.php?err=Database error: cannot prepare statement");
             exit();
         }
     } else {
