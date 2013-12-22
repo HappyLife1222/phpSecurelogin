@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-include 'psl-config.php';   // Needed because functions.php is not included
+include_once 'psl-config.php';   // Needed because functions.php is not included
 
 $mysqli = new mysqli(HOST, USER, PASSWORD, DATABASE);
 if ($mysqli->connect_error) {
