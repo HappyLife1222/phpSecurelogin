@@ -29,7 +29,7 @@ sec_session_start();
     </head>
     <body>
         <?php if (login_check($mysqli) == true) : ?>
-            <p>Welcome logged in user!</p>
+        <p>Welcome <?php echo htmlentities($_SESSION['username']); ?>!</p>
             <p>
                 This is an example protected page.  To access this page, users
                 must be logged in.  At some stage, we'll also check the role of
