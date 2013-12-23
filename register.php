@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 include_once 'includes/register.inc.php';
+include_once 'includes/functions.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -48,7 +49,7 @@ include_once 'includes/register.inc.php';
             </li>
             <li>Your password and confirmation must match exactly</li>
         </ul>
-        <form method="post" name="registration_form">
+        <form method="post" name="registration_form" action="<?php echo esc_url($_SERVER['PHP_SELF']); ?>">
             Username: <input type='text' name='username' id='username' /><br>
             Email: <input type="text" name="email" id="email" /><br>
             Password: <input type="password"
