@@ -1,6 +1,16 @@
 phpSecureLogin
 ==============
 
+*************************************************************************************************************************
+
+I'VE ABANDONED THIS PROJECT AS MAINTAINING IT IS TAKING UP TOO MUCH OF MY TIME.  IF ANYONE WANTS TO CLONE IT, OR WOULD LIKE LIKE TO BE ADDED TO THE ADMINS FOR THIS LOCATION, AND CONTINUE THE WORK (INCLUDING UPDATING THE WIKIHOW PAGE) I'D BE ONLY TOO GRATEFUL.
+
+THE MOST OBVIOUS THING THAT NEEDS DOING IS TO CLOSE THE MASSIVE XSS HOLE IN THE REFERRALS TO THE ERROR PAGE.
+
+I'M HAPPY TO REPLY TO QUERIES AT LEAST UNTIL SOMEBODY ELSE TAKES OVER
+
+*************************************************************************************************************************
+
 NOTE: THIS DOES WORK, BUT IT'S FAR FROM FINISHED!
 
 A secure login module for PHP.  The idea is that it should be easily plugged into any PHP project.
